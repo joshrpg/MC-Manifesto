@@ -184,14 +184,17 @@ function Copy-Overrides {
 }
 
 function Build-Package {
+    $shellVersion = 5 #$PSVersionTable.PSVersion.Major
+
     $timestamp = Get-Date -Format FileDateTime
     $workingDirectory = ($env:TEMP + "\CurseManifest_" + $timestamp)
     $archiveName = ($cfg.packName + '_' + $cfg.versions.pack)
     Copy-Overrides
 
     $manifest.files = $manifestFiles
-    $manifest | ConvertTo-Json -Depth 100 | Out-File ($workingDirectory + '\manifest.json')
+    $manifest | ConvertTo-Json -Depth 100 | Out-File ($workingDirectory + '\manifest.json') -Encoding utf8NoBOM
 
+    if ($shellVersion -eq 7) {
     $compress = @{
         Path            = ($workingDirectory + '\*')
         DestinationPath = ($baseMinecraftDirectory + '\' + $archiveName + '_' + $timestamp + '.zip')
@@ -200,6 +203,21 @@ function Build-Package {
     Compress-Archive @compress 
 
     Remove-Item -Path $workingDirectory -Recurse -Force
+}
+    else {
+        Write-Host "PowerShell 7 was not detected. Looking for 7-zip."
+
+        if (Test-Path HKLM:\SOFTWARE\7-Zip) {
+            $7zip = (Get-ItemProperty -Path HKLM:\SOFTWARE\7-Zip).Path
+            $destinationPath = ($baseMinecraftDirectory + '\' + $archiveName + '_' + $timestamp + '.zip')
+            $path = ($workingDirectory + '\*')
+
+            & $7zip\7z a -tzip $destinationPath $path
+        }
+        else {
+            throw "7-zip was not detected, please install it."
+        }
+    }
 }
 
 $baseMinecraftDirectory = Get-ScriptDirectory
