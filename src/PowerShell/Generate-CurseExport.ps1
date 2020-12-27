@@ -195,15 +195,17 @@ function Build-Package {
     $manifest | ConvertTo-Json -Depth 100 | Out-File ($workingDirectory + '\manifest.json') -Encoding utf8NoBOM
 
     if ($shellVersion -eq 7) {
-    $compress = @{
-        Path            = ($workingDirectory + '\*')
-        DestinationPath = ($baseMinecraftDirectory + '\' + $archiveName + '_' + $timestamp + '.zip')
-    }
+        $compress = @{
+            Path            = ($workingDirectory + '\*')
+            DestinationPath = ($baseMinecraftDirectory + '\' + $archiveName + '_' + $timestamp + '.zip')
+        }
 
+        Compress-Archive @compress 
     Compress-Archive @compress 
-
-    Remove-Item -Path $workingDirectory -Recurse -Force
-}
+        Compress-Archive @compress 
+    
+        Remove-Item -Path $workingDirectory -Recurse -Force
+    }
     else {
         Write-Host "PowerShell 7 was not detected. Looking for 7-zip."
 
