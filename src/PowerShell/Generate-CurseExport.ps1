@@ -281,6 +281,10 @@ if (Test-Path (($baseMinecraftDirectory) + '\manifestConfig.json')) {
     }
     
     Build-Package
+
+    Write-Host -ForegroundColor Green -BackgroundColor Black "Hey, pack person. I'm done."
+    Write-Host -ForegroundColor Green -BackgroundColor Black "Please check your mods folder for any missing 3rd party mods. You can simply add the jar files to the mods folder in the archive."
+    Read-Host -Prompt "Press the 'any' key to close"
 }
 else {
     # do something else
