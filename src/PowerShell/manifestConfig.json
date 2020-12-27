@@ -1,0 +1,18 @@
+{
+    "author": "notJoshrpg",
+    "packName": "My Super Cool Mod Pack",
+    "versions": {
+        "minecraft": "1.12.2",
+        "forge": "forge-14.23.5.2854",
+        "pack": "1.3.3.7"
+    },
+    "overrides": [
+        "config",
+        "fontfiles",
+        "journeymap",
+        "oresources",
+        "resources",
+        "scripts",
+        "structures"
+    ]
+}
