@@ -192,7 +192,7 @@ function Build-Package {
     Copy-Overrides
 
     $manifest.files = $manifestFiles
-    $manifest | ConvertTo-Json -Depth 100 | Out-File ($workingDirectory + '\manifest.json') -Encoding utf8NoBOM
+    $manifest | ConvertTo-Json -Depth 100 | Out-File ($workingDirectory + '\manifest.json') -Encoding utf8
 
     if ($shellVersion -eq 7) {
         $compress = @{
