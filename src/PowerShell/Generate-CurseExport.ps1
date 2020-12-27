@@ -201,8 +201,6 @@ function Build-Package {
         }
 
         Compress-Archive @compress 
-    Compress-Archive @compress 
-        Compress-Archive @compress 
     
         Remove-Item -Path $workingDirectory -Recurse -Force
     }
@@ -213,7 +211,7 @@ function Build-Package {
             $7zip = (Get-ItemProperty -Path HKLM:\SOFTWARE\7-Zip).Path
             $destinationPath = ($baseMinecraftDirectory + '\' + $archiveName + '_' + $timestamp + '.zip')
             $path = ($workingDirectory + '\*')
-
+        
             & $7zip\7z a -tzip $destinationPath $path
         }
         else {
